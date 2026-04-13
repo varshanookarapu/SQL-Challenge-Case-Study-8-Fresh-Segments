@@ -49,9 +49,27 @@ ON im.interest_id :: NUMERIC = imap.id ;
 
 **Question 5:** Summarise the id values in the fresh_segments.interest_map by its total record count in this table
 
+This question was a bit ambiguous to me I am assuming they wanted to join both the tables , summarize the interest_id values and their record counts.
 ```sql
+SELECT interest_id,interest_name,COUNT(*) AS records_count
+FROM fresh_segments.interest_metrics  im
+LEFT JOIN fresh_segments.interest_map  imap 
+ON im.interest_id :: NUMERIC = imap.id 
+WHERE interest_id IS NOT NULL
+GROUP BY interest_id ,interest_name
+ORDER BY 3 DESC'
 
+-- But then again if I take the question literally then this is  the following query
+SELECT id,interest_name,COUNT(*) AS records_count
+FROM 
+fresh_segments.interest_map 
+WHERE id IS NOT NULL
+GROUP BY id ,interest_name
+ORDER BY 3 DESC
 ```
+<img width="1898" height="601" alt="image" src="https://github.com/user-attachments/assets/792a46c6-184e-4a6e-8961-6bdfc71b489f" />
+<img width="1781" height="587" alt="image" src="https://github.com/user-attachments/assets/50fd4274-abc6-4140-886e-22921f97bcc3" />
+
 ---
 
 **Question 6:** What sort of table join should we perform for our analysis and why? Check your logic by checking the rows where interest_id = 21246 in your joined output and include all columns from fresh_segments.interest_metrics and all columns from
