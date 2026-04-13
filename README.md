@@ -20,9 +20,11 @@ ORDER BY month_year DESC
 ```
 <img width="1190" height="766" alt="image" src="https://github.com/user-attachments/assets/34744ea2-af9c-4292-a4da-305856769b27" />
 ---
+
 **Question 3:** What do you think we should do with these null values in the fresh_segments.interest_metrics
 
 ```sql
+I believe we should not consider the null values for the analyssis and remove them as the interest id is also null and we would not be able to map with the interest names 
 ```
 ---
 
