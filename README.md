@@ -57,14 +57,16 @@ ON im.interest_id :: NUMERIC = imap.id ;
 **Question 6:** What sort of table join should we perform for our analysis and why? Check your logic by checking the rows where interest_id = 21246 in your joined output and include all columns from fresh_segments.interest_metrics and all columns from
 Used LEFT JOIN for the analysis
 ```sql
-SELECT  _month as month, _year as year, month_year, composition,index_value,ranking,percentile_ranking,interest_name,interest_summary,created_at,last_modified
+SELECT  _month as month, _year as year, month_year, interest_id,composition,index_value,ranking,percentile_ranking,interest_name,interest_summary,created_at,last_modified
 FROM fresh_segments.interest_metrics  im
 LEFT JOIN fresh_segments.interest_map  imap 
 ON im.interest_id :: NUMERIC = imap.id 
 WHERE interest_id = '21246'
 ```
+<img width="1901" height="571" alt="image" src="https://github.com/user-attachments/assets/9061f646-c212-4e7c-96b7-a680e77d3c51" />
+
 ---
-<img width="1913" height="655" alt="image" src="https://github.com/user-attachments/assets/68226237-65cc-48c5-939f-3560211e5d80" />
+
 
 **Question 7:** Are there any records in your joined table where the month_year value is before the created_at value from the fresh_segments.interest_map table? Do you think these values are valid and why?
 
