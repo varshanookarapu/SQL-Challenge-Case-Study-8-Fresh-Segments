@@ -50,6 +50,9 @@ ON im.interest_id :: NUMERIC = imap.id ;
 **Question 5:** Summarise the id values in the fresh_segments.interest_map by its total record count in this table
 
 ```sql
+SELECT id, COUNT(*) as count_of_records FROM fresh_segments.interest_map
+GROUP BY id
+ORDER BY id
 ```
 ---
 
