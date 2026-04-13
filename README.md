@@ -31,7 +31,20 @@ I believe we should not consider the null values for the analyssis and remove th
 **Question 4:** How many interest_id values exist in the fresh_segments.interest_metrics table but not in the fresh_segments.interest_map table? What about the other way around?
 
 ```sql
+SELECT  COUNT(DISTINCT interest_id) as interest_id_count_in_interst_metrics
+FROM fresh_segments.interest_metrics  im
+LEFT JOIN fresh_segments.interest_map  imap 
+ON im.interest_id :: NUMERIC = imap.id ;
+
+
+SELECT  COUNT(DISTINCT id) as interest_id_count_in_interst_map
+FROM fresh_segments.interest_metrics  im
+RIGHT JOIN fresh_segments.interest_map  imap 
+ON im.interest_id :: NUMERIC = imap.id ;
+
 ```
+<img width="483" height="281" alt="image" src="https://github.com/user-attachments/assets/ce9cb8e3-f3b5-4127-9a4e-6c076b653b52" />
+
 ---
 
 **Question 5:** Summarise the id values in the fresh_segments.interest_map by its total record count in this table
