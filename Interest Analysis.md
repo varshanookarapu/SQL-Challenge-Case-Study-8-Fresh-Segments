@@ -69,6 +69,7 @@ SELECT months_count, intrests_count , SUM(intrests_count) OVER(ORDER BY months_c
 
 FROM interest_cumulative
 ```
+<img width="1774" height="762" alt="image" src="https://github.com/user-attachments/assets/4df18e7f-61ab-40f8-a196-525f9d52177d" />
 
 ---
 
