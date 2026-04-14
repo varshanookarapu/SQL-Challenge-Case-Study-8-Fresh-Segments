@@ -69,8 +69,8 @@ SELECT months_count, intrests_count , SUM(intrests_count) OVER(ORDER BY months_c
 
 FROM interest_cumulative
 ```
-simple terms, **cumulative percentage means that as we move through values step by step, we measure what percentage of the total we have covered so far.**
-
+This question required a bit of math and an understanding of what cumulative percentages actually are. In simple terms, 
+**cumulative percentage means that as we move through values step by step, we measure what percentage of the total we have covered so far.**
 Based on that, we currently have the count of months and the record counts for those months. To address this question, we calculate the cumulative count — i.e., the first row is the first row value, the second row is the first row value plus the second row value, and so on.
 
 Now, the question asks us to calculate the cumulative percentage:
