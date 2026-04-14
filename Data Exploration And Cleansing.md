@@ -91,6 +91,7 @@ FROM fresh_segments.interest_metrics  im
 LEFT JOIN fresh_segments.interest_map  imap 
 ON im.interest_id :: NUMERIC = imap.id 
 WHERE interest_id = '21246'
+-- can filter out the null values bu adding "AND interest_id IS NOT NULL" to the WHERE clause as the interest id is avaliable but  the date and year values are null for further analysis
 ```
 <img width="1901" height="571" alt="image" src="https://github.com/user-attachments/assets/9061f646-c212-4e7c-96b7-a680e77d3c51" />
 
