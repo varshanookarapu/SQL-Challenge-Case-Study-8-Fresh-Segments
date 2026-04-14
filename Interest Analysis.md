@@ -35,6 +35,39 @@ ORDER BY interest_id :: NUMERIC
 **Question 2:** Using this same total_months measure - calculate the cumulative percentage of all records starting at 14 months - which total_months value passes the 90% cumulative percentage value?
 
 ```sql
+
+-- creating a base data set with interest id , interest name and month_year
+WITH interests AS
+(
+SELECT   interest_id,month_year ,interest_name
+FROM fresh_segments.interest_metrics im LEFT JOIN fresh_segments.interest_map imap
+ON im.interest_id ::NUMERIC = imap.id 
+ORDER BY interest_id, month_year
+),
+
+--querying the interest_id and interest names and filerting those interests whose month_year count is 14
+interest_month_count AS
+(
+SELECT interest_id, interest_name, COUNT( DISTINCT month_year) as months_count FROM 
+interests 
+GROUP BY interest_id ,interest_name
+ORDER BY interest_id :: NUMERIC
+),
+
+interest_cumulative AS
+(
+SELECT months_count, COUNT(interest_id) as intrests_count 
+FROM interest_month_count
+GROUP BY months_count
+ORDER BY months_count DESC
+--WHERE months_count <  (SELECT MAX(months_count) FROM interest_month_count )
+)
+
+SELECT months_count, intrests_count , SUM(intrests_count) OVER(ORDER BY months_count DESC) as cumulative_count,
+--main logic
+ ROUND( SUM(intrests_count) OVER(ORDER BY months_count DESC)/ SUM(intrests_count)OVER() *100 ,2) ::NUMERIC as cumulative_percentage 
+
+FROM interest_cumulative
 ```
 
 ---
