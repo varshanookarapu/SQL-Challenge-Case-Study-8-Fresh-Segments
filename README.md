@@ -100,6 +100,27 @@ WHERE interest_id = '21246'
 **Question 7:** Are there any records in your joined table where the month_year value is before the created_at value from the fresh_segments.interest_map table? Do you think these values are valid and why?
 
 ```sql
+ALTER TABLE fresh_segments.interest_metrics ALTER COLUMN month_year TYPE DATE USING TO_DATE(month_year || '-01', 'MM-YYYY-DD');
+
+SELECT interest_id, month_year ,created_at :: DATE FROM fresh_segments.interest_metrics im LEFT JOIN fresh_segments.interest_map imap ON im.interest_id ::NUMERIC = imap.id WHERE month_year < created_at :: DATE LIMIT 10
+
+-- scenario where month_year > created_at
+SELECT   interest_id, month_year ,created_at :: DATE
+FROM fresh_segments.interest_metrics im LEFT JOIN fresh_segments.interest_map imap
+ON im.interest_id ::NUMERIC = imap.id 
+WHERE month_year > created_at :: DATE AND interest_id ='1'
+
 
 ```
 ---
+
+My interpretation is that the created_at value represents the date when the interest was created, whereas the month_year value from when the interest is being tracked
+I do see cases where the month_year value is earlier than the created_at value. However, since the created_at date falls within the same month as month_year, I believe these values are still valid, and the analysis would not be affected.
+
+but if we interpert month_year as start of month and the month_year < created_at it means they started tracking long before the interest was created. then the values would be invalid.
+
+<img width="1726" height="513" alt="image" src="https://github.com/user-attachments/assets/5d3ec34e-cb61-460c-9034-a0fe07c9372f" />
+
+In the following scenario , the metrics was created in May 2016 , but it has been tracked over time hece we see the month_year to in the years 2019 , 2018  etc. 
+<img width="1549" height="664" alt="image" src="https://github.com/user-attachments/assets/9d0411ad-e549-408b-a9cf-66e18bc6920b" />
+
