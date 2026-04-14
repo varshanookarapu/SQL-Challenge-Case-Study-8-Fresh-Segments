@@ -4,12 +4,23 @@
 
 **Question 1:** Update the fresh_segments.interest_metrics table by modifying the month_year column to be a date data type with the start of the month
 ```sql
+
+-- Check
 SELECT _month as month , _year as year , 
 --used concatenation here as start of month is always 01 , you'll notice the format that we have given in the fuction and the format that it outputs is different because PostgreSQL stores dates internally in ISO format (YYYY-MM-DD)
 TO_DATE(month_year  ||  '-01' , 'MM-YYYY-DD')  as month_year , interest_id,composition,index_value, ranking,percentile_ranking
 
 FROM fresh_segments.interest_metrics LIMIT 10;
+
+-- Actual Answer , updating the data type as well as the month year values
+ALTER TABLE fresh_segments.interest_metrics
+ALTER COLUMN month_year TYPE DATE 
+USING TO_DATE(month_year || '-01', 'MM-YYYY-DD');
+
+SELECT * FROM fresh_segments.interest_metrics  LIMIT 5; 
 ```
+<img width="1805" height="340" alt="image" src="https://github.com/user-attachments/assets/2d93d6fe-106b-4438-960b-69de68d1baac" />
+
 **Question 2:** What is count of records in the fresh_segments.interest_metrics for each month_year value sorted in chronological order (earliest to latest) with the null values appearing first?
 
 ```sql
