@@ -79,6 +79,9 @@ cumulative percentage = (cumulative count / total record count) × 100 -- for ev
 We get the cumulative count using: SUM(intrests_count) OVER(ORDER BY month_count DESC)
 and we get the total record count using:SUM(intrests_count) OVER() -- we are using window function here because we want the total interests count repeated for every row.
 By substituting these values and rounding them, we obtain the cumulative percentages.
+
+To address the second part of the question, The cumulative percentage crosses 90% at months_count = 6.
+This means that when we include all records with months_count greater than or equal to 6, we have covered approximately 90% of the total data.
 <img width="1774" height="762" alt="image" src="https://github.com/user-attachments/assets/4df18e7f-61ab-40f8-a196-525f9d52177d" />
 
 ---
