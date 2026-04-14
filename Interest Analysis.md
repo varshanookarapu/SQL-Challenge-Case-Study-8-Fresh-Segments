@@ -136,8 +136,32 @@ WHERE months_count  <6 ;
 **Question 4:** Does this decision make sense to remove these data points from a business perspective? Use an example where there are all 14 months present to a removed interest example for your arguments - think about what it means to have less months present from a segment perspective.
 
 ```sql
-```
 
+WITH interests AS
+(
+SELECT   interest_id,month_year ,interest_name
+FROM fresh_segments.interest_metrics im LEFT JOIN fresh_segments.interest_map imap
+ON im.interest_id ::NUMERIC = imap.id 
+ORDER BY interest_id, month_year
+),
+
+--querying the interest_id and interest names and filerting those interests whose month_year count is 14
+interest_month_count AS
+(
+SELECT interest_id, interest_name, COUNT( DISTINCT month_year) as months_count FROM 
+interests 
+GROUP BY interest_id ,interest_name
+ORDER BY interest_id :: NUMERIC
+)
+
+-- We need to compare these two scenarios
+SELECT interest_id, interest_name ,months_count FROM interest_month_count WHERE months_count IN (5,4,3,2,1)
+
+SELECT interest_id, interest_name ,months_count FROM interest_month_count WHERE months_count IN (14)
+```
+From a business perspective, interests that appear in all 14 months (e.g., wedding planners, vacation planners, NBA fans) show stable, long-term behavior. These are reliable signals of a user’s core preferences.
+Comparing with interests that appear for only 1–5 months (e.g., anime fans, space enthusiasts) are short-term or inconsistent. They may reflect temporary trends, seasonal activity, or changing interests.
+Removing these short-term interests reduces noise and makes the data more focused on stable patterns. However, it also means losing information about new or trending interests, so it depends on whether the goal is long-term analysis or capturing change over time.
 ---
 
 **Question 5:** After removing these interests - how many unique interests are there for each month?
