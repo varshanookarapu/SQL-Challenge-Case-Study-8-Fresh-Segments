@@ -159,9 +159,12 @@ SELECT interest_id, interest_name ,months_count FROM interest_month_count WHERE 
 
 SELECT interest_id, interest_name ,months_count FROM interest_month_count WHERE months_count IN (14)
 ```
-From a business perspective, interests that appear in all 14 months (e.g., wedding planners, vacation planners, NBA fans) show stable, long-term behavior. These are reliable signals of a user’s core preferences.
-Comparing with interests that appear for only 1–5 months (e.g., anime fans, space enthusiasts) are short-term or inconsistent. They may reflect temporary trends, seasonal activity, or changing interests.
+From a business perspective, interests that appear in all 14 months (e.g., wedding planners, vacation planners, NBA fans) show stable, long-term behavior. These interests show users main preferences .
+
+compared to interests that appear for only 1–5 months (e.g., anime fans, space enthusiasts) are short-term or inconsistent. They may reflect temporary trends, seasonal activity, or changing interests.
+
 Removing these short-term interests reduces noise and makes the data more focused on stable patterns. However, it also means losing information about new or trending interests, so it depends on whether the goal is long-term analysis or capturing change over time.
+
 ---
 
 **Question 5:** After removing these interests - how many unique interests are there for each month?
