@@ -83,7 +83,7 @@ ORDER BY 3 DESC
 
 ---
 
-**Question 6:** What sort of table join should we perform for our analysis and why? Check your logic by checking the rows where interest_id = 21246 in your joined output and include all columns from fresh_segments.interest_metrics and all columns from
+**Question 6:** What sort of table join should we perform for our analysis and why? Check your logic by checking the rows where interest_id = 21246 in your joined output and include all columns from fresh_segments.interest_metrics and all columns from fresh_segments.interest_map except from the id column.
 Used LEFT JOIN for the analysis
 ```sql
 SELECT  _month as month, _year as year, month_year, interest_id,composition,index_value,ranking,percentile_ranking,interest_name,interest_summary,created_at,last_modified
