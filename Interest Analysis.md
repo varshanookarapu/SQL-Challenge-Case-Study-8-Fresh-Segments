@@ -89,7 +89,47 @@ This means that when we include all records with months_count greater than or eq
 **Question 3:** If we were to remove all interest_id values which are lower than the total_months value we found in the previous question - how many total data points would we be removing?
 
 ```sql
+-- From the previous question the total_months value where the cumulative percentage crosses 90% is 6
+
+WITH interests AS
+(
+SELECT   interest_id,month_year ,interest_name
+FROM fresh_segments.interest_metrics im LEFT JOIN fresh_segments.interest_map imap
+ON im.interest_id ::NUMERIC = imap.id 
+ORDER BY interest_id, month_year
+),
+
+--querying the interest_id and interest names and filerting those interests whose month_year count is 14
+interest_month_count AS
+(
+SELECT interest_id, interest_name, COUNT( DISTINCT month_year) as months_count FROM 
+interests 
+GROUP BY interest_id ,interest_name
+ORDER BY interest_id :: NUMERIC
+),
+
+interest_cumulative AS
+(
+SELECT months_count, COUNT(interest_id) as intrests_count 
+FROM interest_month_count
+GROUP BY months_count
+ORDER BY months_count DESC
+--WHERE months_count <  (SELECT MAX(months_count) FROM interest_month_count )
+)
+
+-- data points to be removed 
+SELECT SUM(intrests_count) as data_points_to_be_removed  FROM interest_cumulative
+WHERE months_count  <6
+
+-- individual  breakdown
+SELECT months_count, intrests_count 
+FROM interest_cumulative
+WHERE months_count  <6 ;
+
 ```
+<img width="410" height="151" alt="image" src="https://github.com/user-attachments/assets/c01db49a-70a9-4372-8abf-f87eeb529392" />
+
+<img width="1066" height="317" alt="image" src="https://github.com/user-attachments/assets/b622fc22-94fd-4e6a-abe0-339e1a86950d" />
 
 ---
 
