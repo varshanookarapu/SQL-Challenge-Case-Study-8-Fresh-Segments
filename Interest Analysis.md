@@ -170,6 +170,51 @@ Removing these short-term interests reduces noise and makes the data more focuse
 **Question 5:** After removing these interests - how many unique interests are there for each month?
 
 ```sql
+
+-- creating a base data set with interest id , interest name and month_year
+WITH interests AS
+(
+SELECT   interest_id,month_year ,interest_name
+FROM fresh_segments.interest_metrics im LEFT JOIN fresh_segments.interest_map imap
+ON im.interest_id ::NUMERIC = imap.id 
+ORDER BY interest_id, month_year
+),
+
+--querying the interest_id and interest names and filerting those interests whose month_year count is 14
+interest_month_count AS
+(
+SELECT interest_id, interest_name, COUNT( DISTINCT month_year) as months_count FROM 
+interests 
+GROUP BY interest_id ,interest_name
+ORDER BY interest_id :: NUMERIC
+),
+
+interest_cumulative AS
+(
+SELECT months_count, COUNT(interest_id) as intrests_count 
+FROM interest_month_count
+GROUP BY months_count
+ORDER BY months_count DESC
+--WHERE months_count <  (SELECT MAX(months_count) FROM interest_month_count )
+),
+
+-- this is where we are filtering all the interest ids where the months count is >  which makes up for the 90% of the dataset 
+filtered_interests AS (
+    SELECT interest_id 
+    FROM interest_month_count
+    WHERE months_count >= 6   
+)
+-- SELECT SUM(intrests_count) as data_points_to_be_removed  FROM interest_cumulative
+-- WHERE months_count  >=6
+
+SELECT month_year ,  COUNT(fi.interest_id) as unique_intrests_count 
+FROM filtered_interests fi JOIN interests i 
+ON fi.interest_id = i.interest_id 
+WHERE month_year IS NOT NULL
+GROUP BY i.month_year
+ORDER BY i.month_year
+
 ```
+<img width="1107" height="705" alt="image" src="https://github.com/user-attachments/assets/a0f9c4c9-3f3b-49d5-baaa-35174736fc1b" />
 
 ---
