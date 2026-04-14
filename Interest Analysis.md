@@ -215,6 +215,6 @@ GROUP BY i.month_year
 ORDER BY i.month_year
 
 ```
-<img width="1107" height="705" alt="image" src="https://github.com/user-attachments/assets/a0f9c4c9-3f3b-49d5-baaa-35174736fc1b" />
 
 ---
+<img width="1107" height="705" alt="image" src="https://github.com/user-attachments/assets/61d25b3a-9ede-469a-a732-56778cb4120d" />
